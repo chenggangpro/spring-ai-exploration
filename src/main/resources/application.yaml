@@ -1,16 +1,9 @@
 spring:
   docker:
     compose:
-      skip:
-        in-tests: false
       enabled: true
       file: docker-compose.yml
   ai:
-    embedding:
-      options:
-        model: m3e-large
     openai:
       api-key: local-dummy-api-key
       base-url: http://127.0.0.1:7891/v1
-    vectorstore:
-      milvus:

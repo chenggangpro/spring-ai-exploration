@@ -1,32 +1,6 @@
 version: '3.5'
 
 services:
-  api-server:
-    image: llm-api:pytorch
-    build:
-      context: https://github.com/xusenlinzy/api-for-open-llm.git#master
-      dockerfile: docker/Dockerfile
-    command: python api/server.py
-    ulimits:
-      stack: 67108864
-      memlock: -1
-    environment:
-      - PORT=8000
-      - MODEL_NAME=qwen
-      - MODEL_PATH=checkpoints/qwen-7b-chat
-      - EMBEDDING_NAME=checkpoints/m3e-base
-      - DEVICE_MAP=auto
-    volumes:
-#      - $PWD:/workspace
-      # model path need to be specified if not in pwd
-        - api-server-checkpoints:/workspace/checkpoints
-#    env_file:
-#      - .env.example
-    ports:
-      - "7891:8000"
-    restart: always
-    networks:
-      - api-net
   etcd:
     container_name: milvus-etcd
     image: quay.io/coreos/etcd:v3.5.5
@@ -88,7 +62,6 @@ services:
       - "etcd"
       - "minio"
 volumes:
-  api-server-checkpoints:
   etcd:
   minio:
   milvus:
@@ -96,6 +69,3 @@ volumes:
 networks:
   default:
     name: milvus
-  api-net:
-    driver: bridge
-    name: apinet
